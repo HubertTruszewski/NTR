@@ -3,10 +3,10 @@
     "id": 2,
     "author": "Jeremy Clarkson",
     "title": "Can You Make This Thing Go Faster",
-    "publisher": "Penguin Random House UK",
     "date": 2020,
+    "publisher": "Penguin Random House UK",
     "user": "",
-    "reserved": "2022-10-12",
+    "reserved": "",
     "leased": ""
   },
   {
@@ -15,7 +15,7 @@
     "title": "Diddly Squat - a Year on the Farm",
     "date": 2020,
     "publisher": "Penguin Random House UK",
-    "user": "jeremy",
+    "user": "",
     "reserved": "2022-10-21",
     "leased": ""
   },
@@ -24,29 +24,29 @@
     "author": "Mario Puzo",
     "title": "The Godfather",
     "date": 1969,
-    "publisher": "G. P. Putnam's Sons",
-    "user": "",
-    "reserved": "",
-    "leased": ""
+    "publisher": "G. P. Putnam\u0027s Sons",
+    "user": "jeremy",
+    "reserved": "2022-10-20",
+    "leased": "2022-11-02"
   },
   {
     "id": 9,
     "author": "Arthur Conan Doyle",
     "title": "The Sigh of the Four",
     "date": 1890,
-    "publisher": "Lippincott's Monthly Magazine",
-    "user": "",
-    "reserved": "",
-    "leased": ""
+    "publisher": "Lippincott\u0027s Monthly Magazine",
+    "user": "jeremy",
+    "reserved": "2022-11-01",
+    "leased": "2022-11-02"
   },
   {
     "id": 10,
     "author": "Charles Dickens",
     "title": "A Christmas Carol",
     "date": 1843,
-    "publisher": "Chapman & Hall",
-    "user": "",
+    "publisher": "Chapman \u0026 Hall",
+    "user": "librarian",
     "reserved": "",
-    "leased": ""
+    "leased": "2022-11-14"
   }
 ]
