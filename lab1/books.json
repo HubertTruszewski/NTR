@@ -18,5 +18,35 @@
     "user": "jeremy",
     "reserved": "2022-10-21",
     "leased": ""
+  },
+  {
+    "id": 6,
+    "author": "Mario Puzo",
+    "title": "The Godfather",
+    "date": 1969,
+    "publisher": "G. P. Putnam's Sons",
+    "user": "",
+    "reserved": "",
+    "leased": ""
+  },
+  {
+    "id": 9,
+    "author": "Arthur Conan Doyle",
+    "title": "The Sigh of the Four",
+    "date": 1890,
+    "publisher": "Lippincott's Monthly Magazine",
+    "user": "",
+    "reserved": "",
+    "leased": ""
+  },
+  {
+    "id": 10,
+    "author": "Charles Dickens",
+    "title": "A Christmas Carol",
+    "date": 1843,
+    "publisher": "Chapman & Hall",
+    "user": "",
+    "reserved": "",
+    "leased": ""
   }
 ]
