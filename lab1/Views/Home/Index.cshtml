@@ -1,5 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <div>@ViewBag.Message</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 }
 
 <div class="text-center">

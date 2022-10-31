@@ -15,9 +15,9 @@
     "title": "Diddly Squat - a Year on the Farm",
     "date": 2020,
     "publisher": "Penguin Random House UK",
-    "user": "",
-    "reserved": "2022-10-21",
-    "leased": ""
+    "user": "james",
+    "reserved": "",
+    "leased": "2022-11-14"
   },
   {
     "id": 6,
@@ -25,9 +25,9 @@
     "title": "The Godfather",
     "date": 1969,
     "publisher": "G. P. Putnam\u0027s Sons",
-    "user": "jeremy",
-    "reserved": "2022-10-20",
-    "leased": "2022-11-02"
+    "user": "james",
+    "reserved": "",
+    "leased": "2022-11-14"
   },
   {
     "id": 9,
@@ -35,9 +35,9 @@
     "title": "The Sigh of the Four",
     "date": 1890,
     "publisher": "Lippincott\u0027s Monthly Magazine",
-    "user": "jeremy",
+    "user": "",
     "reserved": "2022-11-01",
-    "leased": "2022-11-02"
+    "leased": ""
   },
   {
     "id": 10,
@@ -45,7 +45,7 @@
     "title": "A Christmas Carol",
     "date": 1843,
     "publisher": "Chapman \u0026 Hall",
-    "user": "librarian",
+    "user": "james",
     "reserved": "",
     "leased": "2022-11-14"
   }

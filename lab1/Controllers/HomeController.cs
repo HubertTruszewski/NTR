@@ -16,6 +16,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.Message = TempData["message"]!;
         return View();
     }
 

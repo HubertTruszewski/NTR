@@ -4,15 +4,15 @@
     "pwd": "123"
   },
   {
-    "user": "jeremy",
+    "user": "richard",
     "pwd": "123"
+  },
+  {
+    "user": "user",
+    "pwd": "user"
   },
   {
     "user": "james",
-    "pwd": "123"
-  },
-  {
-    "user": "richard",
     "pwd": "123"
   }
 ]

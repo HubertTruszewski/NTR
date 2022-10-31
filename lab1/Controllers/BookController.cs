@@ -26,6 +26,7 @@ public class BookController : Controller
     public IActionResult List()
     {
         var books = ReadFromFile();
+        ViewBag.Message = TempData["message"]!;
         return View(books);
     }
 
@@ -33,6 +34,7 @@ public class BookController : Controller
     public IActionResult Reservations()
     {
         var reservedBooks = ReadFromFile()!.Where(b => b.IsReserved()).ToList();
+        ViewBag.Message = TempData["message"]!;
         return View(reservedBooks);
     }
     
@@ -40,6 +42,7 @@ public class BookController : Controller
     public IActionResult Borrowings()
     {
         var borrowedBooks = ReadFromFile()!.Where(b => b.IsLeased()).ToList();
+        ViewBag.Message = TempData["message"]!;
         return View(borrowedBooks);
     }
 
@@ -52,6 +55,7 @@ public class BookController : Controller
         book.reserved = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
         book.user = bookAction.user;
         WriteToFile(books);
+        TempData["message"] = "Success! You reserved a book: " + book.title;
         return RedirectToAction("List");
     }
     
@@ -64,6 +68,7 @@ public class BookController : Controller
         book.reserved = "";
         book.user = "";
         WriteToFile(books);
+        TempData["message"] = "You canceled reservation for book: " + book.title;
         return RedirectToAction("Reservations");
     }
     
@@ -75,8 +80,8 @@ public class BookController : Controller
         var book = books!.First(b => b.id == bookAction.book);
         book.leased = DateTime.Now.AddDays(14).ToString("yyyy-MM-dd");
         book.reserved = "";
-        book.user = bookAction.user;
         WriteToFile(books);
+        TempData["message"] = "Success! Book " + book.title + " borrowed";
         return RedirectToAction("Reservations");
     }
     
@@ -89,6 +94,7 @@ public class BookController : Controller
         book.leased = "";
         book.user = "";
         WriteToFile(books);
+        TempData["message"] = "Success! Book " + book.title + " returned";
         return RedirectToAction("Borrowings");
     }
 }

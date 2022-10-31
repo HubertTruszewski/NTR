@@ -38,6 +38,7 @@
                         if (User.Identity!.IsAuthenticated)
                         {
                             @string.Concat("Hi, ", User.Claims.First(c => c.Type == ClaimTypes.Name).Value)
+                            <a href="/User/MyAccount" class="link-primary">My account</a>
                             <a href="/User/Logout">
                                 <button type="button" class="btn btn-danger ms-2">Log out</button>
                             </a>
