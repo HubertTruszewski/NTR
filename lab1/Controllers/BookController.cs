@@ -30,6 +30,25 @@ public class BookController : Controller
         return View(books);
     }
 
+    [HttpPost]
+    public IActionResult List(string phrase)
+    {
+        var books = ReadFromFile();
+        if (string.IsNullOrEmpty(phrase))
+        {
+            return View(books);
+        }
+        books = books!.Where(b => b.title!.ToLower().Contains(phrase.ToLower())).ToList();
+        ViewBag.Message = TempData["message"]!;
+        if (!books.Any())
+        {
+            ViewBag.Message = "Not found books with title containing: " + phrase;
+        }
+
+        ViewBag.Phrase = phrase;
+        return View(books);
+    }
+
     [Authorize]
     public IActionResult Reservations()
     {

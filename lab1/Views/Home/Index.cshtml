@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     ViewData["Title"] = "Home Page";
     if (ViewBag.Message != null)
     {
@@ -7,10 +8,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
+    var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 }
 
 <div class="text-center">
-    <img src="book.png" alt="Book" />
+    <img src="book.png" alt="Book"/>
     <h1 class="display-4">Welcome</h1>
-    <p>Log in or create a new account.</p>
+    <p>
+        @{
+            @((user == null) ? "Log in or create a new account." : string.Concat("Have a nice day, ", user, "!"))
+        }
+    </p>
 </div>
