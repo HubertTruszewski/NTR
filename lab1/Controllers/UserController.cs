@@ -55,8 +55,8 @@ public class UserController : Controller
     public IActionResult Register(User userObject)
     {
         List<User>? users;
-        using (var r = new StreamReader("users.json")) {
-            var json = r.ReadToEnd();
+        using (var inputFile = new StreamReader("users.json")) {
+            var json = inputFile.ReadToEnd();
             users = JsonSerializer.Deserialize<List<User>>(json);
         }
         if (users == null)
@@ -71,11 +71,11 @@ public class UserController : Controller
             return View();
         }
         users.Add(userObject);
-        using (var w = new StreamWriter("users.json"))
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        var serializedUsers = JsonSerializer.Serialize(users, options);
+        using (var outputFile = new StreamWriter("users.json"))
         {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            var serializedUsers = JsonSerializer.Serialize(users, options);
-            w.Write(serializedUsers);
+            outputFile.Write(serializedUsers);
         }
         ViewBag.SuccessMessage = "Success! You can go to login page";
         return View();
