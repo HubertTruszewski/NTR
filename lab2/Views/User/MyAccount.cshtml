@@ -1,0 +1,27 @@
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "My Account";
+    var user = User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+    if (ViewBag.Message != null)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>@ViewBag.Message</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}
+
+<div class="col-6">
+    <div class="row">Username: @user</div>
+    @{
+        if (user != "librarian")
+        {
+            <div class="row">
+                <form method="post">
+                    <input type="hidden" name="username" value=@user />
+                    <button class="btn btn-danger" asp-controller="User" asp-action="DeleteAccount">Delete my account</button>
+                </form>
+            </div>
+        }
+    }
+</div>

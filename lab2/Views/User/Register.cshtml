@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="card col-4 m-md-auto">
+    <div class="card-body">
+        <h3 class="card-title mb-3">Register form</h3>
+        <form method="post">
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" id="user" name="user" placeholder="Username"/>
+                <label for="user">Username</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password"/>
+                <label for="pwd">Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            @{
+                if (ViewBag.SuccessMessage != null)
+                {
+                    <div class="alert alert-success d-flex align-items-start alert-dismissible mt-2" role="alert">
+                        <div>
+                            @ViewBag.SuccessMessage
+                            <br/>
+                            <a class="fw-bold link-success" href="/User/Login">Login</a>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                if (ViewBag.FailureMessage != null)
+                {
+                    <div class="alert alert-danger d-flex align-items-start alert-dismissible mt-2" role="alert">
+                        @ViewBag.FailureMessage
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</div>
