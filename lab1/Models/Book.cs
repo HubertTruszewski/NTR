@@ -36,7 +36,7 @@ public class Book
     return IsLeased() && user == loggedUser;
   }
 
-  public void Reserve(string loggedUser)
+  public void Reserve(string? loggedUser)
   {
     user = loggedUser;
     reserved = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
@@ -45,16 +45,19 @@ public class Book
   public void Lease()
   {
     leased = DateTime.Now.AddDays(14).ToString("yyyy-MM-dd");
+    reserved = "";
   }
 
   public void CancelReservation()
   {
+    user = "";
     reserved = "";
   }
 
   public void Return()
   {
     leased = "";
+    user = "";
   }
   
 }
