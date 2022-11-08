@@ -5,26 +5,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace lab2.Controllers;
 
 public class UserController : Controller
 {
-    private static List<User>? ReadFromFile()
-    {
-        using var r = new StreamReader("users.json");
-        var json = r.ReadToEnd();
-        return JsonSerializer.Deserialize<List<User>>(json);
-    }
-
-    private static void WriteToFile(List<User>? users)
-    {
-        var options = new JsonSerializerOptions() { WriteIndented = true };
-        var json = JsonSerializer.Serialize(users, options);
-        using var outputFile = new StreamWriter("users.json");
-        outputFile.Write(json);
-    }
-
     public IActionResult Login()
     {
         return View();
@@ -33,15 +19,9 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Login(LoginModel loginModel)
     {
-        var users = ReadFromFile();
-        if (users == null)
-        {
-            ViewBag.Message = "Server error!";
-            return Login();
-        }
-
-        var user = users.FirstOrDefault(user => user.user == loginModel.user && user.pwd == loginModel.pwd);
-        if (user == null)
+        using var context = new LibraryDbContext();
+        var correctLogin = context.users!.Any(u => u.username == loginModel.username && u.pwd == loginModel.pwd);
+        if (!correctLogin)
         {
             ViewBag.Message = "Incorrect username or password!";
             return Login();
@@ -50,7 +30,7 @@ public class UserController : Controller
         {
             var claims = new List<Claim>()
             {
-                new(ClaimTypes.Name, loginModel.user!)
+                new(ClaimTypes.Name, loginModel.username!)
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -67,27 +47,17 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Register(User userObject)
     {
-        var users = ReadFromFile();
-        if (users == null)
-        {
-            ViewBag.Message = "Server error!";
-            return Login();
-        }
+        using var context = new LibraryDbContext();
+        var usernameOccupied = context.users!.Any(u => u.username == userObject.username);
 
-        var user = users.FirstOrDefault(user => user.user == userObject.user && user.pwd == userObject.pwd);
-        if (user != null)
+        if (usernameOccupied)
         {
             ViewBag.FailureMessage = "This username is already occupied. Choose another one.";
             return View();
         }
 
-        users.Add(userObject);
-        var options = new JsonSerializerOptions { WriteIndented = true };
-        var serializedUsers = JsonSerializer.Serialize(users, options);
-        using (var outputFile = new StreamWriter("users.json"))
-        {
-            outputFile.Write(serializedUsers);
-        }
+        context.users!.Add(userObject);
+        context.SaveChanges();
 
         ViewBag.SuccessMessage = "Success! You can go to login page";
         return View();
@@ -104,19 +74,16 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult DeleteAccount(string username)
     {
-        var users = ReadFromFile();
-        var user = users!.First(u => u.user == username);
-        using var inputFile = new StreamReader("books.json");
-        var json = inputFile.ReadToEnd();
-        var books = JsonSerializer.Deserialize<List<Book>>(json);
-        var hasLeasedBooks= books!.Where(b => b.IsLeasedForUser(username)).ToList().Any();
+        using var context = new LibraryDbContext();
+        var user = context.users!.First(u => u.username == username);
+        var hasLeasedBooks = context.books!.Include("user").ToList().Where(b => b.IsLeasedForUser(username)).ToList().Any();
         if (hasLeasedBooks)
         {
             TempData["message"] = "Cannot delete account with borrowed books!";
             return RedirectToAction("MyAccount");
         }
-        users!.Remove(user);
-        WriteToFile(users);
+        context.users!.Remove(user);
+        context.SaveChanges();
         TempData["message"] = "The account has been deleted";
         return RedirectToAction("Logout");
     }

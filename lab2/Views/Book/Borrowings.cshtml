@@ -35,7 +35,7 @@
         {
             <tr>
                 <th scope="row">@i</th>
-                <td>@book.user</td>
+                <td>@book.user!.username</td>
                 <td>@book.title</td>
                 <td>@book.author</td>
                 <td>@book.leased</td>
@@ -45,7 +45,7 @@
                         <td>
                             <form method="post">
                                 <input type="hidden" name="user" value=@user />
-                                <input type="hidden" name="book" value=@book.id />
+                                <input type="hidden" name="book" value=@book.bookId />
                                 <button class="btn btn-primary" asp-controller="Book" asp-action="ReturnBook">Return</button>
                             </form>
                         </td>

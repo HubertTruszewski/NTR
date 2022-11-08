@@ -1,15 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace lab2.Models;
 
 public class Book
 {
-  public int id { get; set; }
+  public int bookId { get; set; }
+  [Required]
   public string? author { get; set; }
+  [Required]
   public string? title { get; set; }
+  [Required]
   public int date { get; set; }
+  [Required]
   public string? publisher { get; set; }
-  public string? user { get; set; }
-  public string? reserved { get; set; }
-  public string? leased { get; set; }
+  public User? user { get; private set; }
+  [Required]
+  public string? reserved { get; private set; }
+  [Required]
+  public string? leased { get; private set; }
 
   public bool IsLeased()
   {
@@ -28,15 +36,15 @@ public class Book
 
   public bool IsReservedForUser(string? loggedUser)
   {
-    return IsReserved() && user == loggedUser;
+    return IsReserved() && user!.username == loggedUser;
   }
   
   public bool IsLeasedForUser(string? loggedUser)
   {
-    return IsLeased() && user == loggedUser;
+    return IsLeased() && user!.username == loggedUser;
   }
 
-  public void Reserve(string? loggedUser)
+  public void Reserve(User loggedUser)
   {
     user = loggedUser;
     reserved = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
@@ -50,14 +58,14 @@ public class Book
 
   public void CancelReservation()
   {
-    user = "";
+    user = null;
     reserved = "";
   }
 
   public void Return()
   {
     leased = "";
-    user = "";
+    user = null;
   }
   
 }
