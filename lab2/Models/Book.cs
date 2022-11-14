@@ -15,9 +15,12 @@ public class Book
   public string? publisher { get; set; }
   public User? user { get; private set; }
   [Required]
-  public string? reserved { get; private set; }
+  public string? reserved { get; set; }
   [Required]
-  public string? leased { get; private set; }
+  public string? leased { get; set; }
+
+  [Timestamp]
+  public byte[]? rowVersion { get; set; }
 
   public bool IsLeased()
   {

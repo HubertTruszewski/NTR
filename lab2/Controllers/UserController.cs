@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using System.Text.Json;
 using lab2.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,6 +10,14 @@ namespace lab2.Controllers;
 
 public class UserController : Controller
 {
+
+    private readonly LibraryDbContext _context;
+
+    public UserController(LibraryDbContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Login()
     {
         return View();
@@ -19,7 +26,7 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Login(LoginModel loginModel)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var correctLogin = context.users!.Any(u => u.username == loginModel.username && u.pwd == loginModel.pwd);
         if (!correctLogin)
         {
@@ -47,7 +54,7 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Register(User userObject)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var usernameOccupied = context.users!.Any(u => u.username == userObject.username);
 
         if (usernameOccupied)
@@ -74,13 +81,20 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult DeleteAccount(string username)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var user = context.users!.First(u => u.username == username);
-        var hasLeasedBooks = context.books!.Include("user").ToList().Where(b => b.IsLeasedForUser(username)).ToList().Any();
+        var books = context.books!.Include("user").ToList();
+        var hasLeasedBooks = books.Where(b => b.IsLeasedForUser(username)).ToList().Any();
         if (hasLeasedBooks)
         {
             TempData["message"] = "Cannot delete account with borrowed books!";
             return RedirectToAction("MyAccount");
+        }
+
+        var reservedBooksForUser = books.Where(b => b.IsReservedForUser(username)).ToList();
+        foreach (var book in reservedBooksForUser)
+        {
+            book.CancelReservation();
         }
         context.users!.Remove(user);
         context.SaveChanges();

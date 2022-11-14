@@ -9,4 +9,7 @@ public class User
     public string? username { get; set; }
     [Required]
     public string? pwd { get; set; }
+
+    [Timestamp]
+    public byte[]? rowVersion { get; set; }
 }

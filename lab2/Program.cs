@@ -1,4 +1,7 @@
+using lab2;
+using lab2.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(x => x.LoginPath = "/user/login");
 
+var connectionString = builder.Configuration.GetConnectionString("LibraryDbContext");
+
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+SeedData.Initialize(services);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -9,10 +9,18 @@ namespace lab2.Controllers;
 
 public class BookController : Controller
 {
+
+    private readonly LibraryDbContext _context;
+
+    public BookController(LibraryDbContext context)
+    {
+        _context = context;
+    }
+
     [Authorize]
     public IActionResult List()
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var books = context.books!.ToList();
         ViewBag.Message = TempData["message"]!;
         return View(books);
@@ -22,7 +30,7 @@ public class BookController : Controller
     public IActionResult List(string phrase)
     {
         List<Book> books;
-        using var context = new LibraryDbContext();
+        using var context = _context;
         if (string.IsNullOrEmpty(phrase))
         {
             books = context.books!.ToList();
@@ -43,7 +51,7 @@ public class BookController : Controller
     [Authorize]
     public IActionResult Reservations()
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var reservedBooks = context.books!.Include("user").ToList().Where(b => b.IsReserved()).ToList();
         ViewBag.Message = TempData["message"]!;
         return View(reservedBooks);
@@ -52,7 +60,7 @@ public class BookController : Controller
     [Authorize]
     public IActionResult Borrowings()
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var borrowedBooks = context.books!.Include("user").ToList().Where(b => b.IsLeased()).ToList();
         ViewBag.Message = TempData["message"]!;
         return View(borrowedBooks);
@@ -62,7 +70,7 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult ReserveBook(BookActionModel bookAction)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var book = context.books!.First(b => b.bookId == bookAction.book);
         var user = context.users!.First(u => u.username == bookAction.user);
         book.Reserve(user);
@@ -75,7 +83,7 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult CancelReservation(BookActionModel bookAction)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var book = context.books!.First(b => b.bookId == bookAction.book);
         book.CancelReservation();
         context.SaveChanges();
@@ -87,7 +95,7 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult BorrowBook(BookActionModel bookAction)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var book = context.books!.First(b => b.bookId == bookAction.book);
         book.Lease();
         context.SaveChanges();
@@ -99,7 +107,7 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult ReturnBook(BookActionModel bookAction)
     {
-        using var context = new LibraryDbContext();
+        using var context = _context;
         var book = context.books!.First(b => b.bookId == bookAction.book);
         book.Return();
         context.SaveChanges();
