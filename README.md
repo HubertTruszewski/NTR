@@ -14,7 +14,7 @@ Aplikacja wymaga bazy MySQL do działania.
 
 Sposób uruchomienia bazy:
 
-`docker run --rm --name -p 3306:3306 ntr_db huberttruszewski/ntr_db`
+`docker run --rm -p 3306:3306 --name ntr_db huberttruszewski/ntr_db`
 
 Po uruchomieniu bazy należy zaktualizować jej strukturę z migracji:
 
