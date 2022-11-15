@@ -10,6 +10,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
+    if (ViewBag.ConcurrencyError != null)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div>@ViewBag.ConcurrencyError</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 }
 
 <div>
@@ -36,11 +43,14 @@
         </thead>
         <tbody>
         @{
-            var i = 1;
-            foreach (var book in Model)
+            var pos = 1;
+
+            for (var i = 0; i < Model.Count; ++i)
             {
+                var book = Model[i];
+                
                 <tr>
-                    <th scope="row">@i</th>
+                    <th scope="row">@pos</th>
                     <td>@book.title</td>
                     <td>@book.author</td>
                     <td>@book.date</td>
@@ -52,7 +62,7 @@
                                 <form method="post">
                                     <input type="hidden" name="user" value=@user />
                                     <input type="hidden" name="book" value=@book.bookId />
-                                    <input asp-for="@Model[i - 1].rowVersion" name="rowVersion" type="hidden"/>
+                                    <input asp-for="@Model[i].rowVersion" name="rowVersion" type="hidden"/>
                                     @{
                                         if (book.IsAvailable())
                                         {
@@ -64,7 +74,7 @@
                         }
                     }
                 </tr>
-                ++i;
+                ++pos;
             }
         }
         </tbody>
