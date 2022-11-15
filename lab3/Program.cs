@@ -3,6 +3,7 @@ using lab3;
 using lab3.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 var connectionString = builder.Configuration.GetConnectionString("LibraryDbContext");
 
 builder.Services.AddDbContext<LibraryDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.EnableSensitiveDataLogging();
+});
 
 var app = builder.Build();
 
