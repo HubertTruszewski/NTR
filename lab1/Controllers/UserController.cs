@@ -29,7 +29,7 @@ public class UserController : Controller
     {
         var options = new JsonSerializerOptions() { WriteIndented = true };
         var json = JsonSerializer.Serialize(books, options);
-        using var outputFile = new StreamWriter("users.json");
+        using var outputFile = new StreamWriter("books.json");
         outputFile.Write(json);
     }
 
@@ -126,7 +126,7 @@ public class UserController : Controller
         users!.Remove(user);
         foreach (var book in books!.Where(book => book.IsReservedForUser(username)))
         {
-            book.user = "";
+            book.CancelReservation();
         }
         WriteToFileUsers(users);
         WriteToFileBooks(books);
