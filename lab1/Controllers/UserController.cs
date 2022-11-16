@@ -17,10 +17,18 @@ public class UserController : Controller
         return JsonSerializer.Deserialize<List<User>>(json);
     }
 
-    private static void WriteToFile(List<User>? users)
+    private static void WriteToFileUsers(List<User>? users)
     {
         var options = new JsonSerializerOptions() { WriteIndented = true };
         var json = JsonSerializer.Serialize(users, options);
+        using var outputFile = new StreamWriter("users.json");
+        outputFile.Write(json);
+    }
+    
+    private static void WriteToFileBooks(List<Book>? books)
+    {
+        var options = new JsonSerializerOptions() { WriteIndented = true };
+        var json = JsonSerializer.Serialize(books, options);
         using var outputFile = new StreamWriter("users.json");
         outputFile.Write(json);
     }
@@ -116,7 +124,12 @@ public class UserController : Controller
             return RedirectToAction("MyAccount");
         }
         users!.Remove(user);
-        WriteToFile(users);
+        foreach (var book in books!.Where(book => book.IsReservedForUser(username)))
+        {
+            book.user = "";
+        }
+        WriteToFileUsers(users);
+        WriteToFileBooks(books);
         TempData["message"] = "The account has been deleted";
         return RedirectToAction("Logout");
     }
