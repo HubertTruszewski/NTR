@@ -50,7 +50,7 @@ public class BookController : Controller
     public IActionResult Reservations()
     {
         using var context = _context;
-        var reservedBooks = context.books!.AsNoTracking().Include("user").ToList().Where(b => b.IsReserved()).ToList();
+        var reservedBooks = context.books!.AsNoTracking().Include("user").AsEnumerable().Where(b => b.IsReserved()).ToList();
         ViewBag.Message = TempData["message"]!;
         ViewBag.ConcurrencyError = TempData["concurrencyError"]!;
         return View(reservedBooks);
@@ -60,7 +60,7 @@ public class BookController : Controller
     public IActionResult Borrowings()
     {
         using var context = _context;
-        var borrowedBooks = context.books!.AsNoTracking().Include("user").ToList().Where(b => b.IsLeased()).ToList();
+        var borrowedBooks = context.books!.AsNoTracking().Include("user").AsEnumerable().Where(b => b.IsLeased()).ToList();
         ViewBag.Message = TempData["message"]!;
         ViewBag.ConcurrencyError = TempData["concurrencyError"]!;
         return View(borrowedBooks);
