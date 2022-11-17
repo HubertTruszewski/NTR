@@ -45,8 +45,8 @@ public static class SeedData
                 date = 2020,
                 publisher = "Penguin Random House UK",
                 title = "Can You Make This Thing Go Faster",
-                reserved = "",
-                leased = ""
+                reserved = null,
+                leased = null
             },
             new Book
             {
@@ -54,8 +54,8 @@ public static class SeedData
                 date = 2020,
                 publisher = "Penguin Random House UK",
                 title = "Diddly Squat - a Year on the Farm",
-                reserved = "",
-                leased = ""
+                reserved = null,
+                leased = null
             },
             new Book
             {
@@ -63,8 +63,8 @@ public static class SeedData
                 date = 1969,
                 publisher = "G. P. Putnam's Sons",
                 title = "The Godfather",
-                reserved = "",
-                leased = ""
+                reserved = null,
+                leased = null
             },
             new Book
             {
@@ -73,8 +73,8 @@ public static class SeedData
                 bookId = 10,
                 publisher = "Lippincott's Monthly Magazine",
                 title = "The Sigh of the Four",
-                leased = "",
-                reserved = ""
+                leased = null,
+                reserved = null
             },
             new Book
             {
@@ -82,8 +82,8 @@ public static class SeedData
                 date = 1843,
                 publisher = "Chapman & Hall",
                 title = "A Christmas Carol",
-                leased = "",
-                reserved = ""
+                leased = null,
+                reserved = null
             }
         );
         context.SaveChanges();
