@@ -14,22 +14,20 @@ public class Book
   [Required]
   public string? publisher { get; set; }
   public User? user { get; private set; }
-  [Required]
-  public string? reserved { get; set; }
-  [Required]
-  public string? leased { get; set; }
+  public DateOnly? reserved { get; set; }
+  public DateOnly? leased { get; set; }
 
   [Timestamp]
   public byte[]? rowVersion { get; set; }
 
   public bool IsLeased()
   {
-    return string.CompareOrdinal(leased, DateTime.Now.ToString("yyyy-MM-dd")) >= 0;
+    return leased >= DateOnly.FromDateTime(DateTime.Now);
   }
   
   public bool IsReserved()
   {
-    return string.CompareOrdinal(reserved, DateTime.Now.ToString("yyyy-MM-dd")) >= 0 && !IsLeased();
+    return reserved >= DateOnly.FromDateTime(DateTime.Now);
   }
 
   public bool IsAvailable()
@@ -50,24 +48,24 @@ public class Book
   public void Reserve(User loggedUser)
   {
     user = loggedUser;
-    reserved = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+    reserved = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
   }
 
   public void Lease()
   {
-    leased = DateTime.Now.AddDays(14).ToString("yyyy-MM-dd");
-    reserved = "";
+    leased = DateOnly.FromDateTime(DateTime.Now.AddDays(14));
+    reserved = null;
   }
 
   public void CancelReservation()
   {
     user = null;
-    reserved = "";
+    reserved = null;
   }
 
   public void Return()
   {
-    leased = "";
+    leased = null;
     user = null;
   }
   

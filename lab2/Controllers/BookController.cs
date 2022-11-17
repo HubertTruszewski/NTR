@@ -84,7 +84,7 @@ public class BookController : Controller
     public IActionResult CancelReservation(BookActionModel bookAction)
     {
         using var context = _context;
-        var book = context.books!.First(b => b.bookId == bookAction.book);
+        var book = context.books!.Include("user").First(b => b.bookId == bookAction.book);
         book.CancelReservation();
         context.SaveChanges();
         TempData["message"] = "You canceled reservation for book: " + book.title;
@@ -108,7 +108,7 @@ public class BookController : Controller
     public IActionResult ReturnBook(BookActionModel bookAction)
     {
         using var context = _context;
-        var book = context.books!.First(b => b.bookId == bookAction.book);
+        var book = context.books!.Include("user").First(b => b.bookId == bookAction.book);
         book.Return();
         context.SaveChanges();
         TempData["message"] = "Success! Book " + book.title + " returned";
