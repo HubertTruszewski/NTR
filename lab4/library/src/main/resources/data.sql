@@ -1,0 +1,5 @@
+INSERT INTO books (author, title, date, publisher, user_id, reserved, leased) VALUES ('Jeremy Clarkson', 'Can You Make This Thing Go Faster', 2020, 'Penguin Random House UK', NULL, NULL, NULL);
+INSERT INTO books (author, title, date, publisher, user_id, reserved, leased) VALUES ('Jeremy Clarkson', 'Diddly Squat - a Year on the Farm', 2020, 'Penguin Random House UK', NULL, NULL, NULL);
+INSERT INTO books (author, title, date, publisher, user_id, reserved, leased) VALUES ('Mario Puzo', 'The Godfather', 1969, 'G. P. Putnam''s Sons', NULL, NULL, NULL);
+INSERT INTO books (author, title, date, publisher, user_id, reserved, leased) VALUES ('Arthur Conan Doyle', 'The Sigh of the Four', 1890, 'Lippincott''s Monthly Magazine', NULL, NULL, NULL);
+INSERT INTO books (author, title, date, publisher, user_id, reserved, leased) VALUES ('Charles Dickens', 'A Christmas Carol', 1843, 'Chapman & Hall', NULL, NULL, NULL);
