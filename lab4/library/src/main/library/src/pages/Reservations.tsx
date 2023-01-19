@@ -34,7 +34,7 @@ export const Reservations = () => {
             {method: "PUT", body: JSON.stringify(requestBody), headers: {'Content-Type': 'application/json'}})
             .then(response => {
                 if (response.ok) {
-                    setSuccessMessage(`You reserved book: ${bookList.find(book => book.id === bookId)?.title}`);
+                    setSuccessMessage(`You canceled reservation for book: ${bookList.find(book => book.id === bookId)?.title}`);
                 } else if (response.status === 409) {
                     setErrorMessage("The book's record was changed by another user. Try again.");
                 } else {

@@ -10,6 +10,7 @@ export const Books = () => {
     const [bookList, setBookList] = useState<BookDTO[]>([]);
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     const fetchBooks = () => {
         fetch("/api/book/all").then(result => result.json()).then(books => setBookList(books));
@@ -42,6 +43,16 @@ export const Books = () => {
             .then(() => fetchBooks());
     }
 
+    const searchBooks = () => {
+        if (searchQuery !== "") {
+            fetch(`/api/book/search?phrase=${searchQuery}`)
+                .then(response => response.json())
+                .then(books => setBookList(books));
+        } else {
+            fetchBooks();
+        }
+    }
+
     return <>
         {successMessage.length > 0 && <div className="alert alert-success alert-dismissible" role="alert">
             <div>{successMessage}</div>
@@ -53,6 +64,11 @@ export const Books = () => {
             <button type="button" className="btn-close" aria-label="Close"
                     onClick={() => setErrorMessage("")}></button>
         </div>}
+        <div className="input-group">
+            <input type="text" name="phrase" value={searchQuery} className="form-control" placeholder="Title"
+                   aria-label="Title" onInput={event => setSearchQuery(event.currentTarget.value)}/>
+            <button className="btn btn-outline-primary" onClick={searchBooks}>Search</button>
+        </div>
         <table className="table table-striped table-hover">
             <thead>
             <tr>
