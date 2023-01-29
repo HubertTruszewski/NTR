@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 
 import pl.edu.pw.elka.ntr.library.dto.BookActionDTO;
+import pl.edu.pw.elka.ntr.library.dto.NewBookDTO;
 import pl.edu.pw.elka.ntr.library.model.Book;
 
 public interface BookService {
@@ -22,4 +23,6 @@ public interface BookService {
     ResponseEntity<Void> borrowBook(BookActionDTO bookAction);
 
     ResponseEntity<Void> returnBook(BookActionDTO bookAction);
+
+    ResponseEntity<Void> addBook(NewBookDTO newBookDTO);
 }

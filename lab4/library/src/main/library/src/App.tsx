@@ -10,6 +10,7 @@ import {Borrowings} from "./pages/Borrowings";
 import {Reservations} from "./pages/Reservations";
 import {Homepage} from "./pages/Homepage";
 import {ProfilePage} from "./pages/ProfilePage";
+import {NewBookPage} from "./pages/NewBookPage";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path={"/borrowings"} element={<Borrowings/>}/>
                     <Route path={"/register"} element={<Register/>}/>
                     <Route path={"/profile"} element={<ProfilePage/>}/>
+                    <Route path={"/newBook"} element={<NewBookPage/>}/>
                     <Route path={"/"} element={<Homepage/>}/>
                     <Route path={"*"} element={<>Not found!</>}/>
                 </Routes>

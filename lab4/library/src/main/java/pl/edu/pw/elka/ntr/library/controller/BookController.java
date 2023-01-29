@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.edu.pw.elka.ntr.library.dto.BookActionDTO;
+import pl.edu.pw.elka.ntr.library.dto.NewBookDTO;
 import pl.edu.pw.elka.ntr.library.model.Book;
 import pl.edu.pw.elka.ntr.library.service.BookService;
 
@@ -59,5 +61,10 @@ public class BookController {
     @PutMapping("/return")
     public ResponseEntity<Void> returnBook(@RequestBody final BookActionDTO bookActionDTO) {
         return bookService.returnBook(bookActionDTO);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Void> addBook(@RequestBody final NewBookDTO newBookDTO) {
+        return bookService.addBook(newBookDTO);
     }
 }

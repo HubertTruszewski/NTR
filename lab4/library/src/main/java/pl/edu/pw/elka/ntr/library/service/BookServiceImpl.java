@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import pl.edu.pw.elka.ntr.library.dto.BookActionDTO;
+import pl.edu.pw.elka.ntr.library.dto.NewBookDTO;
 import pl.edu.pw.elka.ntr.library.model.AppUserDetails;
 import pl.edu.pw.elka.ntr.library.model.Book;
 import pl.edu.pw.elka.ntr.library.model.User;
@@ -102,5 +103,15 @@ public class BookServiceImpl implements BookService {
         book.setLeased(null);
         book.setUser(null);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> addBook(final NewBookDTO newBookDTO) {
+        final Book book = new Book(newBookDTO.author(),
+                newBookDTO.title(),
+                Integer.parseInt(newBookDTO.date()),
+                newBookDTO.publisher());
+        bookRepository.save(book);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

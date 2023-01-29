@@ -11,6 +11,7 @@ export const Books = () => {
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [showOnlyAvailable, setShowOnlyAvailable] = useState<boolean>(false);
 
     const fetchBooks = () => {
         fetch("/api/book/all").then(result => result.json()).then(books => setBookList(books));
@@ -69,6 +70,17 @@ export const Books = () => {
                    aria-label="Title" onInput={event => setSearchQuery(event.currentTarget.value)}/>
             <button className="btn btn-outline-primary" onClick={searchBooks}>Search</button>
         </div>
+        {user?.username === "librarian" &&
+            <button type="button" className="btn btn-success" onClick={() => window.location.href = "/newBook"}>Add new
+                book</button>}
+        {user?.username !== "librarian" &&
+            <div>
+                <input className="form-check-input" type="checkbox" checked={showOnlyAvailable}
+                       onClick={() => setShowOnlyAvailable(prevState => !prevState)} id="flexCheckDefault"/>
+                <label className="form-check-label" htmlFor="flexCheckDefault">
+                    Show only available books
+                </label>
+            </div>}
         <table className="table table-striped table-hover">
             <thead>
             <tr>
@@ -80,20 +92,26 @@ export const Books = () => {
             </tr>
             </thead>
             <tbody>
-            {bookList.map((book, index) => <tr key={book.id}>
-                    <th scope={"row"}>{index + 1}</th>
-                    <td>{book.title}</td>
-                    <td>{book.author}</td>
-                    <td>{book.date}</td>
-                    {user?.username !== "librarian" && <td>
-                        {shouldShowBookButton(book) &&
-                            <button className="btn btn-info"
-                                    onClick={() => handleBookReserve(book.id, book.version)}>
-                                Book
-                            </button>}
-                    </td>}
-                </tr>
-            )}
+            {bookList.filter(book => {
+                    if (showOnlyAvailable) {
+                        return shouldShowBookButton(book);
+                    }
+                    return true;
+                })
+                .map((book, index) => <tr key={book.id}>
+                        <th scope={"row"}>{index + 1}</th>
+                        <td>{book.title}</td>
+                        <td>{book.author}</td>
+                        <td>{book.date}</td>
+                        {user?.username !== "librarian" && <td>
+                            {shouldShowBookButton(book) &&
+                                <button className="btn btn-info"
+                                        onClick={() => handleBookReserve(book.id, book.version)}>
+                                    Book
+                                </button>}
+                        </td>}
+                    </tr>
+                )}
             </tbody>
         </table>
     </>

@@ -19,7 +19,7 @@ public class Book {
     @Id
     @Column(name = "BOOK_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String author;
     @Column(nullable = false)
@@ -36,7 +36,17 @@ public class Book {
     @Version
     private int version;
 
-    public long getId() {
+    public Book() {
+    }
+
+    public Book(final String author, final String title, final int date, final String publisher) {
+        this.author = author;
+        this.title = title;
+        this.date = date;
+        this.publisher = publisher;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -68,7 +78,7 @@ public class Book {
         return leased;
     }
 
-    public void setId(final long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
